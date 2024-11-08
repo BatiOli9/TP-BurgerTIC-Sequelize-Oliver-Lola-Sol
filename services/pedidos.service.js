@@ -1,4 +1,5 @@
 import { config } from "../db.js";
+import { Pedido } from "../models/pedidos.model.js";
 import pkg from "pg";
 const { Client } = pkg;
 
@@ -66,27 +67,12 @@ const getPedidos = async () => {
 };
 
 const getPedidoById = async (id) => {
-    const client = new Client(config);
-    await client.connect();
+    await Pedido.findAll({
+        where: {
+            id: id,
+        },
+    });
 
-    try {
-        const { rows } = await client.query(
-            "SELECT * FROM pedidos WHERE id = $1",
-            [id]
-        );
-
-        if (rows.length < 1) return null;
-
-        const result = rows[0];
-
-        result.platos = await getPlatosByPedido(id);
-
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
 };
 
 const getPedidosByUser = async (idUsuario) => {
@@ -195,21 +181,11 @@ const updatePedido = async (id, estado) => {
 };
 
 const deletePedido = async (id) => {
-    const client = new Client(config);
-    await client.connect();
+    const pedido = await Pedido.findByPk(id);
 
-    try {
-        const { rows } = await client.query(
-            "DELETE FROM pedidos WHERE id = $1",
-            [id]
-        );
+    if (!pedido) throw new Error("Pedido no encontrado");
 
-        await client.end();
-        return rows;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
+    await pedido.destroy();
 };
 
 export default {

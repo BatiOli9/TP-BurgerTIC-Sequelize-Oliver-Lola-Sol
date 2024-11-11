@@ -1,5 +1,4 @@
-import { config } from "../db.js";
-import pkg from "pg";
+import { Usuario } from "../models/usuarios.model.js"
 
 const getUsuarioByEmail = async (email) => 
     await Usuario.findAll({

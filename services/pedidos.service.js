@@ -1,42 +1,15 @@
 import { config } from "../db.js";
 import { Pedido } from "../models/pedidos.model.js";
+import { Plato } from "../models/platos.model.js"
 import pkg from "pg";
 const { Client } = pkg;
 
-const getPlatosByPedido = async (idPedido) => {
-    const client = new Client(config);
-    await client.connect();
+const getPlatosByPedido = async (id) => {
+    await Plato.findAll({
+        where: {
 
-    try {
-        const { rows } = await client.query(
-            "SELECT * FROM pedidos_platos WHERE id_pedido = $1",
-            [idPedido]
-        );
-
-        if (rows.length < 1) throw new Error("Pedido no encontrado");
-
-        const result = await Promise.all(
-            rows.map(async (plato) => {
-                const { rows } = await client.query(
-                    "SELECT * FROM platos WHERE id = $1",
-                    [plato.id_plato]
-                );
-
-                if (rows.length < 1) throw new Error("Plato no encontrado");
-
-                return {
-                    ...rows[0],
-                    cantidad: plato.cantidad,
-                };
-            })
-        );
-
-        await client.end();
-        return result;
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
+        }
+    })
 };
 
 const getPedidos = async () => {

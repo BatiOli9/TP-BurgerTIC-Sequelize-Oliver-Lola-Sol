@@ -1,10 +1,10 @@
 import "dotenv/config";
 
 export const config = {
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
+    user: "burgertic_owner",
+    host: "ep-green-dew-a5oizun4.us-east-2.aws.neon.tech",
+    database: "burgertic",
+    password: "cW6eZq5PIgun",
     port: 5432,
     ssl: true,
 };
@@ -16,6 +16,7 @@ export const sequelize = new Sequelize(
 );
 
 try {
+
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
 } catch (error) {

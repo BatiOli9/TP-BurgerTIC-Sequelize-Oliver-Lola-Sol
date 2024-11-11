@@ -7,7 +7,7 @@ const { Client } = pkg;
 const getPlatosByPedido = async (id) => {
     await Plato.findAll({
         where: {
-
+            id_pedido: id,
         }
     })
 };

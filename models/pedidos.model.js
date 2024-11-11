@@ -12,10 +12,10 @@ Pedido.init(
     },
     id_usuario: {
         type: DataTypes.INTEGER, // si es fk lo aclaro aca?
-        references: {
-            model: usuarios, 
-            key: 'id' 
-        }
+       // references: {
+           // model: usuarios, 
+           // key: 'id' 
+        //}
     },
     fecha: {
         type: DataTypes.DATE,

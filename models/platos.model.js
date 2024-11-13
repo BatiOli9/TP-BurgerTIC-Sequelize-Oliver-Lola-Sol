@@ -12,6 +12,10 @@ Plato.init(
         },
         tipo: {
             type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isIn: [["principal", "combo", "postre"]],
+            }
         },
         nombre: {
             type: DataTypes.STRING,

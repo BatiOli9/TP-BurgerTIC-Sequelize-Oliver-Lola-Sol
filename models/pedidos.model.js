@@ -23,6 +23,10 @@ Pedido.init(
     },
     estado: {
         type: DataTypes.STRING,
+        allowNull: false,
+            validate: {
+                isIn: [["pendiente", "aceptado", "en camino", "entregado"]],
+            }
     },
     descripcion: {
         type: DataTypes.STRING,

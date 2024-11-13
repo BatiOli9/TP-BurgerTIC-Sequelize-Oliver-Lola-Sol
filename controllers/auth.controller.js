@@ -1,6 +1,7 @@
 import UsuariosService from "../services/usuarios.service.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+const JWTKEY = 10;
 
 const register = async (req, res) => {
     const usuario = req.body;
@@ -18,10 +19,10 @@ const register = async (req, res) => {
 
     const usuario2 = await UsuariosService.getUsuarioByEmail(usuario.email);
 
-    if (usuario2)
+    if (usuario2) 
         return res.status(400).json({ message: "Email ya registrado" });
 
-    const hash = await bcrypt.hash(usuario.password, 10);
+    const hash = await bcrypt.hash(usuario.password, JWTKEY);
 
     try {
         await UsuariosService.createUsuario({
@@ -46,6 +47,8 @@ const login = async (req, res) => {
 
     const usuario = await UsuariosService.getUsuarioByEmail(email);
 
+    console.log(usuario);
+
     if (!usuario)
         return res.status(400).json({ message: "Usuario no encontrado" });
 
@@ -55,7 +58,7 @@ const login = async (req, res) => {
         return res.status(400).json({ message: "Contraseña incorrecta" });
 
     try {
-        const token = jwt.sign({ id: usuario.id }, process.env.SECRET, {
+        const token = jwt.sign({ id: usuario.id }, JWTKEY, {
             expiresIn: "30m",
         });
         res.json({

@@ -11,9 +11,18 @@ export const config = {
 
 import { Sequelize } from "sequelize";
 
-export const sequelize = new Sequelize(
-    process.env.DB_URL
-);
+export const sequelize = new Sequelize(config.database, config.user, config.password, {
+    host: config.host,
+    dialect: 'postgres',
+    ssl: config.ssl,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    },
+    port: config.port
+});
 
 try {
 

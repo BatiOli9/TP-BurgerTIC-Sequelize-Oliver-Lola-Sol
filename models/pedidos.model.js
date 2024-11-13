@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../db.js";
+import { Usuario } from "./usuarios.model.js";
 
 export class Pedido extends Model {}
 
@@ -11,11 +12,11 @@ Pedido.init(
         primaryKey: true,
     },
     id_usuario: {
-        type: DataTypes.INTEGER, // si es fk lo aclaro aca?
-       // references: {
-           // model: usuarios, 
-           // key: 'id' 
-        //}
+        type: DataTypes.INTEGER, // Assuming id_usuario is a string
+            references: {
+                model: Usuario, // Reference to the Usuario model
+                key: 'id', // Key in the Usuario model
+            },
     },
     fecha: {
         type: DataTypes.DATE,

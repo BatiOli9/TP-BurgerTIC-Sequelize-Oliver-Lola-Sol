@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../db.js";
+import { Plato } from "../models/platos.model.js";
+import { Pedido } from "../models/pedidos.model.js";
 
 export class PlatoxPedido extends Model {}
 
@@ -13,19 +15,20 @@ PlatoxPedido.init(
     id_pedido: {
         type: DataTypes.INTEGER, // si es fk lo aclaro aca?
         references: {
-            model: usuarios, 
+            model: Pedido, 
             key: 'id' 
         }
     },
-    fecha: {
-        type: DataTypes.DATE,
+    id_plato: {
+        type: DataTypes.INTEGER, // si es fk lo aclaro aca?
+        references: {
+            model: Plato, 
+            key: 'id' 
+        }
     },
-    estado: {
-        type: DataTypes.STRING,
-    },
-    descripcion: {
-        type: DataTypes.STRING,
-    },                                                
+    cantidad: {
+        type: DataTypes.INTEGER,
+    },                                               
    },
    {
     sequelize,

@@ -17,7 +17,7 @@ Usuario.init(
             type: DataTypes.STRING,
         },
         email: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.STRING,
         },
         password: {
             type: DataTypes.STRING,

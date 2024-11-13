@@ -1,7 +1,7 @@
 import { Usuario } from "../models/usuarios.model.js"
 
 const getUsuarioByEmail = async (email) => {
-    await Usuario.findAll({
+    await Usuario.findOne({
         where: {
             email: email,
         },
@@ -25,8 +25,6 @@ const createUsuario = async (usuario) => {
         password: usuario.password,
         admin:false
     });
-    
-   
 };
 
 export default { getUsuarioByEmail, getUsuarioById, createUsuario };

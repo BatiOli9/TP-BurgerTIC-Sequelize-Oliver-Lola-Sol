@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import UsuariosService from "../services/usuarios.service.js";
-const JWTKEY = 10;
+const JWTKEY = "oliver";
 
 export const verifyToken = async (req, res, next) => {
     if (!req.headers.authorization)
@@ -9,6 +9,8 @@ export const verifyToken = async (req, res, next) => {
             .json({ message: "Se necesita estar autenticado" });
 
     const token = req.headers.authorization.split(" ")[1];
+
+    console.log(token)
 
     if (!token)
         return res
@@ -51,6 +53,8 @@ export const verifyAdmin = async (req, res, next) => {
         req.idUsuario = decoded.id;
 
         const usuario = await UsuariosService.getUsuarioById(req.idUsuario);
+
+        console.log(usuario);
 
         if (!usuario.admin)
             return res.status(403).json({ message: "No autorizado" });

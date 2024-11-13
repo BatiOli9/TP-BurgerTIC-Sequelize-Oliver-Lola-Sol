@@ -1,7 +1,7 @@
 import UsuariosService from "../services/usuarios.service.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-const JWTKEY = 10;
+const JWTKEY = "oliver";
 
 const register = async (req, res) => {
     const usuario = req.body;
@@ -22,7 +22,8 @@ const register = async (req, res) => {
     if (usuario2) 
         return res.status(400).json({ message: "Email ya registrado" });
 
-    const hash = await bcrypt.hash(usuario.password, JWTKEY);
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(usuario.password, saltRounds);
 
     try {
         await UsuariosService.createUsuario({

@@ -11,11 +11,12 @@ const getUsuarioByEmail = async (email) => {
 
 
 const getUsuarioById = async (id) => {
-    await Usuario.findAll({
+    const result = await Usuario.findAll({
         where: {
             id: id,
         },
     });
+    return result;
 };
 
 const createUsuario = async (usuario) => {

@@ -34,7 +34,7 @@ const createPlato = async (req, res) => {
     if (!plato.tipo || !plato.nombre || !plato.precio || !plato.descripcion)
         return res.status(400).json({ message: "Faltan campos por llenar" });
     
-    plato.tipo.toLowerCase();
+    plato.tipo = plato.tipo.toLowerCase();
 
     if (plato.tipo !== "principal" && plato.tipo !== "combo" && plato.tipo !== "postre") {
         return res.status(400).json({ message: "Tipo no válido, solamente se puede completar con: principal, combo o postre" });
@@ -59,6 +59,12 @@ const updatePlato = async (req, res) => {
 
     if (!plato.tipo || !plato.nombre || !plato.precio || !plato.descripcion)
         return res.status(400).json({ message: "Faltan campos por llenar" });
+
+    plato.tipo = plato.tipo.toLowerCase();
+
+    if (plato.tipo !== "principal" && plato.tipo !== "combo" && plato.tipo !== "postre") {
+        return res.status(400).json({ message: "Tipo no válido, solamente se puede completar con: principal, combo o postre" });
+    }
 
     try {
         await PlatosService.updatePlato(id, plato);

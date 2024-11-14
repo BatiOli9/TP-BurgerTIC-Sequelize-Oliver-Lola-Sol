@@ -38,17 +38,11 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(
-        email,
-        password
-    );
 
     if (!email || !password)
         return res.status(400).json({ message: "Faltan campos por llenar" });
 
     const usuario = await UsuariosService.getUsuarioByEmail(email);
-
-    console.log(usuario);
 
     if (!usuario)
         return res.status(400).json({ message: "Usuario no encontrado" });

@@ -10,8 +10,6 @@ export const verifyToken = async (req, res, next) => {
 
     const token = req.headers.authorization.split(" ")[1];
 
-    console.log(token)
-
     if (!token)
         return res
             .status(401)
@@ -53,8 +51,6 @@ export const verifyAdmin = async (req, res, next) => {
         req.idUsuario = decoded.id;
 
         const usuario = await UsuariosService.getUsuarioById(req.idUsuario);
-
-        console.log(usuario);
 
         if (!usuario.admin)
             return res.status(403).json({ message: "No autorizado" });

@@ -5,12 +5,12 @@ import { verifyAdmin, verifyToken } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router.get("/", verifyAdmin, PedidosController.getPedidos);
-router.get("/usuario", verifyToken, PedidosController.getPedidosByUser); // IMPORTANTE QUE ESTE RUTA VAYA ANTES DE LA DE ABAJO
+router.get("/usuario", verifyToken, PedidosController.getPedidosByUser);
 router.get("/:id", verifyAdmin, PedidosController.getPedidoById);
 router.post("/", verifyToken, PedidosController.createPedido);
-router.put("/:id/aceptar", verifyAdmin, PedidosController.aceptarPedido);
-router.put("/:id/comenzar", verifyAdmin, PedidosController.comenzarPedido);
-router.put("/:id/entregar", verifyAdmin, PedidosController.entregarPedido);
-router.delete("/:id", verifyAdmin, PedidosController.deletePedido);
+router.put("/:id/aceptar", verifyAdmin, verifyToken, PedidosController.aceptarPedido);
+router.put("/:id/comenzar", verifyAdmin, verifyToken, PedidosController.comenzarPedido);
+router.put("/:id/entregar", verifyAdmin, verifyToken, PedidosController.entregarPedido);
+router.delete("/:id", verifyAdmin, verifyToken, PedidosController.deletePedido);
 
 export default router;

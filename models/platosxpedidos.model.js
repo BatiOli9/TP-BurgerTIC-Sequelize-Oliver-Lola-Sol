@@ -13,14 +13,14 @@ PlatoxPedido.init(
         primaryKey: true,
     },
     id_pedido: {
-        type: DataTypes.INTEGER, // si es fk lo aclaro aca?
+        type: DataTypes.INTEGER,
         references: {
             model: Pedido, 
             key: 'id' 
         }
     },
     id_plato: {
-        type: DataTypes.INTEGER, // si es fk lo aclaro aca?
+        type: DataTypes.INTEGER,
         references: {
             model: Plato, 
             key: 'id' 
@@ -32,7 +32,7 @@ PlatoxPedido.init(
    },
    {
     sequelize,
-        modelName: "pedidos",
-        timestamps: false,
+    modelName: "pedidos_platos",
+    timestamps: false,
    }
 );

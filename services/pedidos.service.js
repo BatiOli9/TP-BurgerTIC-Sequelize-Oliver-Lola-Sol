@@ -1,9 +1,6 @@
-import { config } from "../db.js";
 import { Pedido } from "../models/pedidos.model.js";
 import { Plato } from "../models/platos.model.js"
 import { PlatoxPedido } from "../models/platosxpedidos.model.js";
-import pkg from "pg";
-const { Client } = pkg;
 
 const getPlatosByPedido = async (id) => {
     try {
@@ -35,41 +32,30 @@ const getPlatosByPedido = async (id) => {
 };
 
 const getPedidos = async () => {
-    await Pedido.findAll();
+    const result = await Pedido.findAll();
+    return result;
 };
 
 const getPedidoById = async (id) => {
-    await Pedido.findAll({
+    const result = await Pedido.findOne({
         where: {
             id: id,
         },
     });
-
+    return result;
 };
 
 const getPedidosByUser = async (idUsuario) => {
-    await Pedido.findAll({
+    const result = await Pedido.findAll({
         where: {
             id_usuario: idUsuario,
         },
     });
+    return result;
 };
 
 const createPedido = async (idUsuario, platos) => {
-    const client = new Client(config);
-    await client.connect();
-
     try {
-        for (let plato of platos) {
-            const platoExistente = await Plato.findOne({
-                where: { id: plato.id },
-            });
-
-            if (!platoExistente) {
-                throw new Error(`Plato con id ${plato.id} no encontrado`);
-            }
-        }
-
         const nuevoPedido = await Pedido.create({
             id_usuario: idUsuario,
             fecha: new Date(),
@@ -79,16 +65,23 @@ const createPedido = async (idUsuario, platos) => {
         const idPedido = nuevoPedido.id;
 
         for (let plato of platos) {
-            await PedidoPlato.create({
+            const platoExistente = await Plato.findOne({
+                where: { nombre: plato.nombre },
+            });
+
+            if (!platoExistente) {
+                throw new Error(`Plato con nombre ${plato.nombre} no encontrado`);
+            }
+
+            await PlatoxPedido.create({
                 id_pedido: idPedido,
-                id_plato: plato.id,
+                id_plato: platoExistente.id,
                 cantidad: plato.cantidad,
             });
         }
 
         return nuevoPedido;
     } catch (error) {
-        // Manejo de errores
         console.error("Error al crear el pedido:", error.message);
         throw error;
     }

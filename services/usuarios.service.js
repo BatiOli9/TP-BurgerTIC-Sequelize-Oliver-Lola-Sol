@@ -11,7 +11,7 @@ const getUsuarioByEmail = async (email) => {
 
 
 const getUsuarioById = async (id) => {
-    const result = await Usuario.findAll({
+    const result = await Usuario.findOne({
         where: {
             id: id,
         },
